@@ -1,0 +1,10 @@
+{
+    "name": "asiltechsoft/webpush-lite-php",
+    "description": "Send Web Push notifications from PHP with zero dependencies (RFC 8291 aes128gcm + VAPID).",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["web push", "push notifications", "vapid", "service worker", "aes128gcm"],
+    "authors": [{ "name": "Ünal Kaya", "homepage": "https://asiltechsoft.com" }],
+    "require": { "php": ">=8.1", "ext-openssl": "*", "ext-curl": "*" },
+    "autoload": { "files": ["WebPush.php"] }
+}

@@ -1,0 +1,23 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Web Push demo</title>
+<button id="on">Enable notifications</button>
+<pre id="out"></pre>
+<script>
+// 1) Put your VAPID public key here (from WebPush::generateVapidKeys()).
+var VAPID_PUBLIC_KEY = 'PASTE_YOUR_PUBLIC_KEY';
+
+function u8(b64) {
+  var pad = '='.repeat((4 - b64.length % 4) % 4), s = atob((b64 + pad).replace(/-/g, '+').replace(/_/g, '/'));
+  return Uint8Array.from(s, function (c) { return c.charCodeAt(0); });
+}
+
+document.getElementById('on').onclick = async function () {
+  var reg = await navigator.serviceWorker.register('sw.js');
+  if (await Notification.requestPermission() !== 'granted') return alert('Permission denied');
+  var sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: u8(VAPID_PUBLIC_KEY) });
+  // 2) Send this JSON to your server and store it (one row per device).
+  document.getElementById('out').textContent = JSON.stringify(sub.toJSON(), null, 2);
+};
+</script>
